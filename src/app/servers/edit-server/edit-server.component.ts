@@ -48,7 +48,7 @@ canDeactivate(): Observable<boolean> | Promise<boolean> | boolean{
   }
   if((this.serverName !== this.server.name || this.serverStatus !== this.server.status) &&
   ! this.chnagesSaved){
-    return confirm('Do you want to discard the changes?');
+    return confirm('Are you Sure ? .Do you want to discard the changes?');
   } else {
     return false;
   }
