@@ -3,13 +3,14 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { ServersService } from '../servers.service';
+import { canComponentDeactivate } from './can-deactivate-guard.service';
 
 @Component({
   selector: 'app-edit-server',
   templateUrl: './edit-server.component.html',
   styleUrls: ['./edit-server.component.css']
 })
-export class EditServerComponent implements OnInit {
+export class EditServerComponent implements OnInit,canComponentDeactivate {
   server: {id: number, name: string, status: string};
   serverName = '';
   serverStatus = '';
@@ -31,8 +32,8 @@ export class EditServerComponent implements OnInit {
     .subscribe(
 
     );
-    const id = this.route.snapshot.params['id'];
-    this.server = this.serversService.getServer(1);
+    const id = Number(this.route.snapshot.params['id']);
+    this.server = this.serversService.getServer(id);
     this.serverName = this.server.name;
     this.serverStatus = this.server.status;
   }
@@ -48,7 +49,7 @@ canDeactivate(): Observable<boolean> | Promise<boolean> | boolean{
   }
   if((this.serverName !== this.server.name || this.serverStatus !== this.server.status) &&
   ! this.chnagesSaved){
-    return confirm('Are you Sure ? .Do you want to discard the changes?');
+    return confirm('Do you want to discard the changes?');
   } else {
     return false;
   }
